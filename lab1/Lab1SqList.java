@@ -118,7 +118,7 @@ public class Lab1SqList {
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
-            int n, i, e, m, k;
+            int n, i, e, m;
             int T;
             Lab1SqList L = new Lab1SqList();
             System.out.println("这是金容畅的实验结果");
