@@ -1,5 +1,5 @@
 #include <iostream>
-#include "code2st.h"
+#include "code2st.hpp"
 
 typedef char ElemType;
 
