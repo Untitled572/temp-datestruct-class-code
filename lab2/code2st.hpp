@@ -10,7 +10,6 @@ using std::endl;
 #define OK 1
 #define ERROR 0
 #define OVERFLOW -2
-
 typedef int Status;
 
 // 定义模板化的 LNode 结构体
