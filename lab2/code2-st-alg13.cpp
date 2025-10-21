@@ -23,7 +23,7 @@ int main(){
     // 获取第个i元素
     cout << "获取第i个元素，请输入i：";
     cin >> i;
-    T = GetElem_L(L, i, &e);
+    T = GetElem_L(L, i, e);
     cout << "返回值为1时获取第i个元素成功，否则不成功：" << T << endl;
     cout << "第i个元素的值为：" << e << endl;
 
