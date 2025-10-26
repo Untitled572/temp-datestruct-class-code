@@ -2,10 +2,15 @@
 #define CODE2ST_H
 
 #include <iostream>
+#include <sstream>
+#include <vector>
 
 using std::cin;
 using std::cout;
 using std::endl;
+using std::istringstream;
+using std::string;
+using std::vector;
 
 #define OK 1
 #define ERROR 0
@@ -26,7 +31,53 @@ using LinkList = LNode<ElemType> *;
 
 // 模板函数实现
 template <typename ElemType>
-Status InitList_L(LinkList<ElemType> &L)
+bool getMultipleInput(vector<ElemType> &values, size_t expected_count = 0)
+{
+    cout << ": ";
+    string line;
+    if (!getline(cin, line))
+    {
+        exit(0);
+    }
+
+    if (line.empty())
+    {
+        if (expected_count == 0)
+            return true; // 允许空
+        cout << "输入不能为空！\n";
+        return false;
+    }
+
+    istringstream iss(line);
+    ElemType value;
+    values.clear();
+
+    while (iss >> value)
+    {
+        values.push_back(value);
+    }
+
+    if (expected_count > 0 && values.size() != expected_count)
+    {
+        values.clear();
+        cout << "Invalid Input" << endl;
+        return false;
+    }
+
+    return true;
+}
+
+template <typename ElemType>
+auto &getInput(ElemType &result)
+{ // 获取输入函数
+    vector<ElemType> values;
+    while (!getMultipleInput(values, 1)){}
+    result = values[0];
+    return result;
+}
+
+template <typename ElemType>
+Status InitList_L(LinkList<ElemType> & L)
 { // 算法2.1 单链表的初始化
     // 构造一个空的单链表L
     L = new LNode<ElemType>; // 生成新结点作为头结点，用头指针L指向头结点
@@ -37,43 +88,46 @@ Status InitList_L(LinkList<ElemType> &L)
 }
 
 template <typename ElemType>
-void CreateList_H(LinkList<ElemType> &L, int n)
+void CreateList_H(LinkList<ElemType> & L, int n)
 { // 算法2.21 前插法创建单链表
     // 逆位序输入n个元素的值，建立到头结点的单链表L
-    LNode<ElemType> *p;
+    InitList_L<ElemType>(L);
+    vector<ElemType> values;
+    while (!getMultipleInput(values, n)){}
 
-    L = new LNode<ElemType>;
-    L->next = NULL; // 先建立一个带头结点的空链表
-    for (int i = n; i > 0; --i)
+    for (int i = 0; i < n; i += 1)
     {
-        p = new LNode<ElemType>; // 生成新结点
-        cin >> p->data;          // 输入元素值
+        auto *p = new LNode<ElemType>;
+        p->data = values[i];
         p->next = L->next;
-        L->next = p; // 插入到表头
+        L->next = p;
+    }
+    return;
+}
+
+
+template <typename ElemType>
+void CreateList_R(LinkList<ElemType> & L, int n)
+{ // 算法2.22 后插法创建单链表
+    // 正位序输入n个元素的值，建立带表头结点的单链表L
+    InitList_L<ElemType>(L);
+    LNode<ElemType> *p, *r;
+    r = L;
+    vector<ElemType> values;
+    while (!getMultipleInput(values, n)){}
+
+    for (int i = 0; i < n; i += 1)
+    {
+        p = new LNode<ElemType>;
+        p->data = values[i]; // 输入元素值
+        p->next = NULL;
+        r->next = p; // 插入到表尾
+        r = p;
     }
 }
 
 template <typename ElemType>
-void CreateList_R(LinkList<ElemType> &L, int n)
-{ // 算法2.22 后插法创建单链表
-    // 正位序输入n个元素的值，建立带表头结点的单链表L
-    LNode<ElemType> *p, *r;
-
-    L = new LNode<ElemType>;
-    L->next = NULL; // 先建立一个带头结点的空链表
-    r = L;          // 尾指针r指向头结点
-    for (int i = 0; i < n; ++i)
-    {
-        p = new LNode<ElemType>;
-        cin >> p->data; // 输入元素值
-        p->next = NULL;
-        r->next = p; // 插入到表尾
-        r = p;
-    } // r指向新的尾结点
-}
-
-template <typename ElemType>
-Status GetElem_L(LinkList<ElemType> L, int i, ElemType& e)
+Status GetElem_L(LinkList<ElemType> L, int i, ElemType &e)
 { // 算法2.3 单链表的取值
     // 在带头结点的单链表L中查找第i个元素
     // 用e返回L中第i个数据元素的值
@@ -88,7 +142,7 @@ Status GetElem_L(LinkList<ElemType> L, int i, ElemType& e)
     }
     if (!p || j > i)
         return ERROR; // i值不合法i＞n或i<=0
-    e = p->data;     // 取第i个结点的数据域
+    e = p->data;      // 取第i个结点的数据域
     return OK;
 } // GetElem_L
 
@@ -121,7 +175,7 @@ int LocateElem(LinkList<ElemType> L, ElemType e)
 }
 
 template <typename ElemType>
-Status ListInsert_L(LinkList<ElemType> &L, int i, ElemType e)
+Status ListInsert_L(LinkList<ElemType> & L, int i, ElemType e)
 { // 算法2.5 单链表的插入
     // 在带头结点的单链表L中第i个位置插入值为e的新结点
     int j;
@@ -143,7 +197,7 @@ Status ListInsert_L(LinkList<ElemType> &L, int i, ElemType e)
 } // ListInsert_L
 
 template <typename ElemType>
-Status ListDelete_L(LinkList<ElemType> &L, int i)
+Status ListDelete_L(LinkList<ElemType> & L, int i)
 { // 算法2.6 单链表的删除
     // 在带头结点的单链表L中，删除第i个位置
     LNode<ElemType> *p, *q;
@@ -155,8 +209,9 @@ Status ListDelete_L(LinkList<ElemType> &L, int i)
         p = p->next;
         ++j;
     }
-    if (!(p->next) || (j > i - 1)){
-        return ERROR;    // 当i>n或i<1时，删除位置不合理
+    if (!(p->next) || (j > i - 1))
+    {
+        return ERROR; // 当i>n或i<1时，删除位置不合理
     }
 
     q = p->next;       // 临时保存被删结点的地址以备释放
@@ -203,7 +258,7 @@ int SumElem_L(LinkList<ElemType> L, ElemType e)
 }
 
 template <typename ElemType>
-void ListDelete1(LinkList<ElemType> &L, ElemType e)
+void ListDelete1(LinkList<ElemType> & L, ElemType e)
 { // 算法2.9 单链表的删除，删除第一个与e相等的元素
     // 在带头结点的单链表L中查找值为e的元素
     LNode<ElemType> *p, *s;
@@ -219,7 +274,7 @@ void ListDelete1(LinkList<ElemType> &L, ElemType e)
 }
 
 template <typename ElemType>
-void ListDelete2(LinkList<ElemType> &L, ElemType e)
+void ListDelete2(LinkList<ElemType> & L, ElemType e)
 {                                 // 算法2.10 单链表的删除，删除所有与e相等的元素
     LNode<ElemType> *p = L->next; // p 指向当前要检查的结点
     LNode<ElemType> *s = L;       // s 指向 p 的前驱结点
@@ -243,7 +298,7 @@ void ListDelete2(LinkList<ElemType> &L, ElemType e)
 }
 
 template <typename ElemType>
-LNode<ElemType> *Max(LinkList<ElemType> L, ElemType *e)
+LNode<ElemType> *Max(LinkList<ElemType> L, ElemType * e)
 { // 算法2.11确定单链表中值最大的结点,返回其地址
     if (L->next == NULL)
         return NULL;
@@ -260,7 +315,7 @@ LNode<ElemType> *Max(LinkList<ElemType> L, ElemType *e)
 }
 
 template <typename ElemType>
-void Inverse(LinkList<ElemType> &L)
+void Inverse(LinkList<ElemType> & L)
 {                                 // 算法2.12逆置带头结点的单链表L
     LNode<ElemType> *p = L->next; // p指向首元结点
     L->next = NULL;               // 头结点的指针域置为空
