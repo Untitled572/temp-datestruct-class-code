@@ -4,8 +4,6 @@ public class Stack<Item> {
     private LinarList<Item> items = new SLList<>();
     //private LinarList<Item> items = new AList<>();       //Array list implement
 
-    //private
-
     public void push(Item x){
         items.addLast(x);
     }
