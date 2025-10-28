@@ -1,5 +1,3 @@
-import java.awt.*;
-import java.util.Calendar;
 import java.util.Scanner;
 
 public class BasicMission1 {
@@ -53,8 +51,7 @@ public class BasicMission1 {
         while (true) {
             try {
                 System.out.print(prompt);
-                int i = scanner.nextInt();
-                return i;
+                return scanner.nextInt();
             } catch (Exception i) {
                 System.out.println("Invalid Integer\n: ");
                 scanner.next();
