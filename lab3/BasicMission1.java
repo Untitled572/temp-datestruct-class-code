@@ -30,7 +30,7 @@ public class BasicMission1 {
         return convertBuildString(s);
     }
 
-    public static void convertBuild(int deci, int d, Stack<Character> s) {
+    private static void convertBuild(int deci, int d, Stack<Character> s) {
         if(deci < d) {
             s.push(alphabet[deci]);
             return;
@@ -39,7 +39,7 @@ public class BasicMission1 {
         convertBuild(deci / d, d, s);
     }
 
-    public static String convertBuildString(Stack<Character> s) {
+    private static String convertBuildString(Stack<Character> s) {
         if (s.size() == 0){
             return "";
         }
