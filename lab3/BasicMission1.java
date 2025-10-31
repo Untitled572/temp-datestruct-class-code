@@ -7,7 +7,6 @@ public class BasicMission1 {
     */
 
     private static char[] alphabet;
-
     private static void makeAlpha() {
         alphabet = new char[36];
         for(int i = 0; i < 36; i += 1) {

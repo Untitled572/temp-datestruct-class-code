@@ -1,7 +1,7 @@
 import lab3.*;
 
 public class Stack<Item> {
-    private LinarList<Item> items = new SLList<>();
+    public LinarList<Item> items = new SLList<>();      //SLList implement
     //private LinarList<Item> items = new AList<>();       //Array list implement
 
     public void push(Item x){
@@ -12,20 +12,11 @@ public class Stack<Item> {
         return items.removeLast();
     }
 
-    public Item getTop(){
+    public Item peek(){
         return items.get(items.size());
     }
 
     public int size(){
         return items.size();
-    }
-
-    public static void main(String[] args) {
-        Stack<String> s = new Stack<>();
-        s.push("4");
-        s.push("0");
-        s.push("5");
-        s.push("2");
-        System.out.println(s.pop());
     }
 }
