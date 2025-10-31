@@ -1,5 +1,4 @@
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -155,8 +154,14 @@ public class BasicMission2 {
                 stack.push(Double.parseDouble(s));
             }
             else {
-                double b = stack.pop();  // 右操作数
-                double a = stack.pop();  // 左操作数
+                double b = stack.pop();
+                double a;
+                if(stack.size() != 0){
+                    a = stack.pop();
+                }
+                else {
+                    a = 0.0;
+                }
                 stack.push(sum(a, b, s));
             }
         }
