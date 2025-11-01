@@ -48,6 +48,15 @@ public class BasicMission2 {
         return true;
     }
 
+    private static boolean isAlpha(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isLetter(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static boolean prior(String cur, String basic) {
         boolean[][] priorList = {
                 //cur  basic +      -      *      /      (      )      #
@@ -83,7 +92,7 @@ public class BasicMission2 {
                 //System.out.println("first #");
                 continue;
             }
-            if(isNumeric(s)){
+            if(isNumeric(s) || isAlpha(s)){
                 Number.push(s);
                 //System.out.println("Numeric");
             }
@@ -146,6 +155,10 @@ public class BasicMission2 {
     public static double calculate(ArrayList<String> list){
         Stack<Double> stack = new Stack<>();
         for (String s : list) {
+            if (isAlpha(s)){
+                System.out.println("Alphabetic formula, cant calculate");
+                System.exit(0);
+            }
             if (isNumeric(s)) {
                 stack.push(Double.parseDouble(s));
             }
