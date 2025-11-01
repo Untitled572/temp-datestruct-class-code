@@ -7,7 +7,7 @@ public class Queue<Item> {
 
     public Item pop(){return items.removeLast();}
 
-    public Item getFront(){return items.get(1);}
+    public Item getLast(){return items.get(1);}
 
     public int size(){return items.size();}
 }

@@ -15,29 +15,24 @@ public class BasicMission2 {
         }
     }
 
-    private static int popToInt(Queue<Integer> q){
-
-        if(q.size() == 0) return 0;
-        return (int) ((q.pop() * Math.pow(10, q.size())) + popToInt(q));
-    }
-
     private static ArrayList<String> formulaArray;
     private static void changeToArray(String formula) {
         /*
         convert a string formula to a list of each number and operator
          */
         formulaArray = new ArrayList<>();
-        Queue<Integer> que = new Queue<>();
+        StringBuilder number = new StringBuilder();
         for (char c : formula.toCharArray()) {
             if (c == ' ') {
                 continue;
             }
-            if (Character.isDigit(c)){
-                que.push(Character.getNumericValue(c));
+            if (Character.isDigit(c) || c == '.'){
+                number.append(c);
             }
             else {
-                if(que.size() != 0){
-                    formulaArray.add(String.valueOf(popToInt(que)));
+                if(!number.isEmpty()){
+                    formulaArray.add(number.toString());
+                    number.setLength(0);
                 }
                 formulaArray.add(String.valueOf(c));
             }
@@ -46,7 +41,9 @@ public class BasicMission2 {
 
     private static boolean isNumeric(String str) {
         for (char c : str.toCharArray()) {
-            if (!Character.isDigit(c)) {return false;}
+            if (!Character.isDigit(c) && c != '.') {
+                    return false;
+            }
         }
         return true;
     }
@@ -148,7 +145,6 @@ public class BasicMission2 {
 
     public static double calculate(ArrayList<String> list){
         Stack<Double> stack = new Stack<>();
-        int result = 0;
         for (String s : list) {
             if (isNumeric(s)) {
                 stack.push(Double.parseDouble(s));
