@@ -15,8 +15,8 @@ int main()
     int i = -1;
     string s = "AB#CD##E##F#GH###";
     cout << "1、请输入先序建立二叉树的序列：\n";
-    //getInput(s);
-    cout << s << endl;
+    getInput(s);
+    //cout << s << endl;
     CreateBiTree(tree, s, i);
 
     cout << "2、中序遍历二叉树的序列为：\n";

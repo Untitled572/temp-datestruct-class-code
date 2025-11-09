@@ -253,7 +253,8 @@ bool testTree(string s) {
     {
         return false;
     }
-    int i = 100;
+    int i = 1000;
+    int k = i;
     for (int j = 0; j < length; j += 1){
         if(std::isalpha(s[j])) {
             i += 1;
@@ -262,7 +263,7 @@ bool testTree(string s) {
             i -= 1;
         }
     }
-    if(i < 100) {
+    if(k == i + 1) {
         return true;
     }
     return false;
